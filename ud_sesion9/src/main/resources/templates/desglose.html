@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Desglose de Facturación</title>
+    <style>
+        .agotado { color: white; background-color: red; padding: 2px 5px; font-weight: bold; border-radius: 3px; }
+        table { border-collapse: collapse; width: 60%; margin-top: 15px; }
+        th, td { border: 1px solid #aaa; padding: 10px; text-align: left; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+<h1>Desglose del cálculo</h1>
+<ul>
+    <li><strong>Base:</strong> <span th:text="${base}">0.00</span> €</li>
+    <li><strong>Descuento por volumen:</strong> -<span th:text="${descuentoVolumen}">0.00</span> €</li>
+    <li><strong>Descuento club:</strong> -<span th:text="${descuentoClub}">0.00</span> €</li>
+    <li><strong>Coste montaje:</strong> +<span th:text="${extraMontaje}">0.00</span> €</li>
+    <li><strong>Base imponible:</strong> <span th:text="${baseImponible}">0.00</span> €</li>
+    <li><strong>IVA (21%):</strong> +<span th:text="${iva}">0.00</span> €</li>
+    <li style="margin-top: 10px; font-size: 1.2em;"><strong>Total a pagar:</strong> <span th:text="${total}">0.00</span> €</li>
+</ul>
+
+<hr>
+
+<h2>Catálogo D1</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Disponibilidad</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${catalogo}">
+        <td th:text="${item.nombre}"></td>
+        <td th:text="${item.precio} + ' €'"></td>
+        <td>
+            <span th:if="${item.agotado}" class="agotado">Agotado</span>
+            <span th:unless="${item.agotado}">En stock</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<a href="/pedido" style="display:inline-block; margin-top: 20px;">Hacer otro pedido</a>
+</body>
+</html>
